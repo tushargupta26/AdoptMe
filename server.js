@@ -8,6 +8,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const PORT = process.env.PORT || 3001;
 
+// write some method that calls that api every 5 minutes and cache the results
+
 const html = fs
   .readFileSync(path.resolve(__dirname, "./dist/client/index.html"))
   .toString();
@@ -25,12 +27,16 @@ app.use((req, res) => {
 
   const stream = renderApp(req.url, {
     onShellReady() {
+      // if it is the crawler do nothing here
       stream.pipe(res);
     },
     onShellError() {
       // do anything logging here
     },
     onAllReady() {
+      // if it is the crawler
+      // stream.pipe(res);
+
       res.write(parts[1]);
       res.end();
     },
